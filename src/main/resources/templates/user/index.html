@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Secured</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+
+    <button>Iniciar proceso</button>
+    <div id = "process"> </div>
+
+    <div id = "tareas"> </div>
+
+
+    <p><a href="/" th:href="@{/}">Back to home page</a></p>
+</div>
+</body>
+</html>
+
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script th:inline="javascript">
+$(document).ready(function(){
+    $("button").click(function() {
+
+        var user = /*[[${#authentication.name}]]*/; 
+
+       $.getJSON("http://localhost:8080/api/processes/simpleProcess/"+user, function(result){
+
+             $("#process").append(result.id+" "+result.name+" ");
+
+
+
+       });
+     });
+});
+</script>
