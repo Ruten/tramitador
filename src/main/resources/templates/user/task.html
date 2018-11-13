@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Tareas del usuario</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <div id="completeTask">
+        <form id="taskForm">
+
+        </form>
+        <button>Completar</button>
+    </div>
+
+    <p><a href="/" th:href="@{/}">Back to home page</a></p>
+</div>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script th:inline="javascript">
+$(document).ready(function(){
+        var taskId = /*[[${taskId}]]*/;
+
+        $.ajax({
+            url: 'http://localhost:8081/api/forms/'+taskId,
+            dataType: 'json',
+            type: 'get',
+            contentType: 'application/json',
+            success: function(result){
+                 $.each(result.fields, function(index, element) {
+                    var fieldName = element.name;
+
+                    var fieldId = element.id;
+
+                    var field = '<div class="field"><label for="name">'+fieldName+':</label>';
+                    field += '<input type="text" id="'+fieldId+'" name="'+fieldId+'"></div>';
+
+
+                    $("#taskForm").append(field);
+
+                 });
+            }
+        });
+
+
+        $("button").click(function() {
+
+            var form = $('#taskForm').serializeArray();
+
+
+            var datos = {
+                fields :  form
+            }
+
+            console.log(JSON.stringify( datos));
+            $.ajax({
+                url: 'http://localhost:8081/api/completetask/'+taskId,
+                dataType: 'json',
+                type: 'post',
+                data:  JSON.stringify( datos ),
+                contentType: 'application/json',
+                success: function(result){
+                    console.log(result);
+                    $('#completeTask').html(result.response);
+                }
+            });
+        });
+
+
+
+
+
+});
+
+</script>

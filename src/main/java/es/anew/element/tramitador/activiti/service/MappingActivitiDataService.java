@@ -1,12 +1,11 @@
 package es.anew.element.tramitador.activiti.service;
 
 
-import es.anew.element.tramitador.activiti.model.json.FormField;
+import es.anew.element.tramitador.activiti.model.json.*;
 import es.anew.element.tramitador.activiti.model.json.Process;
-import es.anew.element.tramitador.activiti.model.json.TaskForm;
-import es.anew.element.tramitador.activiti.model.json.UserTask;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.stereotype.Service;
@@ -55,4 +54,9 @@ public class MappingActivitiDataService {
     }
 
 
+    public Deploy mapDeploy(Deployment activitiDeployment) {
+        Deploy deploy = new Deploy();
+        deploy.setId(activitiDeployment.getId());
+        return deploy;
+    }
 }

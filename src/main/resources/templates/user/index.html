@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Secured</title>
+    <title>Inicio de proceso</title>
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
@@ -25,15 +25,24 @@
 $(document).ready(function(){
     $("button").click(function() {
 
-        var user = /*[[${#authentication.name}]]*/; 
+        var user = /*[[${#authentication.name}]]*/;
+        datos = {
+            id: 'simpleProcess',
+            initiator: user
+            }
 
-       $.getJSON("http://localhost:8080/api/processes/simpleProcess/"+user, function(result){
+        $.ajax({
+            url: 'http://localhost:8081/api/processes',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify( datos ),
+            processData: false,
+            success: function( result){
+                $("#process").append(result.id+" "+result.name+" ");
+            }
+        });
 
-             $("#process").append(result.id+" "+result.name+" ");
-
-
-
-       });
      });
 });
 </script>

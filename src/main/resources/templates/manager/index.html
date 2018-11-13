@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Despliegue de proceso</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+
+    <form method="POST" id="upload" enctype="multipart/form-data">
+        <input id="file" type="file" name="file" /><br/><br/>
+        <input id="submitButton" type="submit" value="Desplegar proceso" />
+    </form>
+
+    <div id = "result"> </div>
+
+
+    <p><a href="/" th:href="@{/}">Back to home page</a></p>
+</div>
+</body>
+</html>
+
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script th:inline="javascript">
+$(document).ready(function(){
+    $("#submitButton").click(function(event) {
+
+        // Stop default form Submit.
+        event.preventDefault();
+
+        // Call Ajax Submit.
+
+        ajaxSubmitForm();
+
+    });
+});
+
+
+function ajaxSubmitForm() {
+
+    // Get form
+    var form = $('#upload')[0];
+
+    var data = new FormData(form);
+
+
+    $("#submitButton").prop("disabled", true);
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "http://localhost:8081/api/deploys",
+        data: data,
+
+        // prevent jQuery from automatically transforming the data into a query string
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 1000000,
+        success: function(data) {
+            $("#result").html("<p>Desplegado proceso</p>");
+            $("#submitButton").prop("disabled", false);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#result").html(jqXHR.responseText);
+            $("#submitButton").prop("disabled", false);
+        }
+    });
+
+}
+
+
+</script>

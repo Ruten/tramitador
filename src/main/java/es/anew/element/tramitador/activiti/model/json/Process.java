@@ -8,6 +8,16 @@ public class Process {
 
     private String name;
 
+    private String initiator;
+
+    public String getInitiator() {
+        return initiator;
+    }
+
+    public void setInitiator(String initiator) {
+        this.initiator = initiator;
+    }
+
     public String getId() {
         return id;
     }

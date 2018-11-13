@@ -1,13 +1,18 @@
 package es.anew.element.tramitador.activiti.service;
 
+import java.io.InputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.anew.element.tramitador.activiti.model.json.FormField;
+import es.anew.element.tramitador.activiti.model.json.Process;
 import es.anew.element.tramitador.activiti.model.json.TaskForm;
 import org.activiti.engine.*;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +44,10 @@ public class ActivitiService {
 	@Autowired
 	private PersonRepository personRepository;
 
-	public ProcessInstance startProcess(String id) {
+	public ProcessInstance startProcess(Process process) {
 		try {
-			identityService.setAuthenticatedUserId("kermit");
-			return runtimeService.startProcessInstanceByKey(id);
+			identityService.setAuthenticatedUserId(process.getInitiator());
+			return runtimeService.startProcessInstanceByKey(process.getId());
 		} finally {
 			identityService.setAuthenticatedUserId(null);
 		}
@@ -57,8 +62,14 @@ public class ActivitiService {
 		return taskService.createTaskQuery().taskAssignee(assignee).list();
 	}
 	
-	public void completeTask(String taskId) {
-		taskService.complete(taskId);
+	public void completeTask(String taskId, TaskForm form) {
+		Map<String, Object> variables = getVariablesMap(form);
+		taskService.complete(taskId, variables);
+	}
+
+	public Deployment deployProcess(String nombre, InputStream inputStream) {
+		Deployment deployment = repositoryService.createDeployment().addInputStream(nombre, inputStream).deploy();
+		return deployment;
 	}
 
 	public void createPersons() {
@@ -70,19 +81,15 @@ public class ActivitiService {
 		}
 	}
 
-	private String processInfo() {
-		List<Task> tasks = taskService.createTaskQuery().orderByTaskCreateTime().asc().list();
-		
-		StringBuilder stringBuilder = new StringBuilder();
 
-		stringBuilder.append("Number of process definitions : "
-				+ repositoryService.createProcessDefinitionQuery().count() + "--> Tasks >> ");
-
-		for (Task task : tasks) {
-			stringBuilder
-					.append(task + " | Assignee: " + task.getAssignee() + " | Description: " + task.getDescription());
+	private Map<String, Object> getVariablesMap(TaskForm form) {
+		List<FormField> fields = form.getFields();
+		Map<String,Object> variables = new HashMap<>();
+		for (FormField field: fields) {
+			variables.put(field.getName(),field.getValue());
 		}
-
-		return stringBuilder.toString();
+		return variables;
 	}
+
+
 }
