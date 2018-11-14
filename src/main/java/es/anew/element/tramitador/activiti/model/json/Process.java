@@ -10,6 +10,18 @@ public class Process {
 
     private String initiator;
 
+    private String deploymentId;
+
+
+    public String getDeploymentId() {
+        return deploymentId;
+    }
+
+    public void setDeploymentId(String deploymentId) {
+        this.deploymentId = deploymentId;
+    }
+
+
     public String getInitiator() {
         return initiator;
     }

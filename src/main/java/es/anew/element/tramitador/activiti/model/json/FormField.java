@@ -1,7 +1,5 @@
 package es.anew.element.tramitador.activiti.model.json;
 
-import org.activiti.engine.form.FormType;
-
 public class FormField {
     private String id;
     private String name;
