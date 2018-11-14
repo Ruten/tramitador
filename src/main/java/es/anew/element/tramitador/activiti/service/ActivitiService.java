@@ -4,7 +4,6 @@ import es.anew.element.tramitador.activiti.model.Person;
 import es.anew.element.tramitador.activiti.model.json.FormField;
 import es.anew.element.tramitador.activiti.model.json.Process;
 import es.anew.element.tramitador.activiti.model.json.TaskForm;
-import es.anew.element.tramitador.activiti.repo.PersonRepository;
 import org.activiti.engine.*;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.repository.Deployment;
@@ -39,9 +38,6 @@ public class ActivitiService {
 	@Autowired
 	private FormService formService;
 
-	@Autowired
-	private PersonRepository personRepository;
-
 	public ProcessInstance startProcess(Process process) {
 		try {
 			identityService.setAuthenticatedUserId(process.getInitiator());
@@ -68,15 +64,6 @@ public class ActivitiService {
 	public Deployment deployProcess(String nombre, InputStream inputStream) {
 		Deployment deployment = repositoryService.createDeployment().addInputStream(nombre, inputStream).deploy();
 		return deployment;
-	}
-
-	public void createPersons() {
-		if (personRepository.findAll().size() == 0) {
-
-			personRepository.save(new Person("John", new Date()));
-			personRepository.save(new Person("David", new Date()));
-			personRepository.save(new Person("Katherin", new Date()));
-		}
 	}
 
 

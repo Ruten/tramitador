@@ -13,15 +13,4 @@ public class TramitadorActivitiApplication {
 		SpringApplication.run(TramitadorActivitiApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner init(final ActivitiService activitiService) {
-
-		return new CommandLineRunner() {
-			public void run(String... strings) throws Exception {
-				activitiService.createPersons();
-			}
-		};
-
-	}
-
 }
