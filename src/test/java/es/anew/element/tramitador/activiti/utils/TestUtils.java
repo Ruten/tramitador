@@ -1,4 +1,4 @@
-package es.anew.element.tramitador.activiti.service;
+package es.anew.element.tramitador.activiti.utils;
 
 import es.anew.element.tramitador.activiti.model.json.FormField;
 import es.anew.element.tramitador.activiti.model.json.TaskForm;
