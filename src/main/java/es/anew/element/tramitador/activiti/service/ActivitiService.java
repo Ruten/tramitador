@@ -1,16 +1,10 @@
 package es.anew.element.tramitador.activiti.service;
 
-import java.io.InputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import es.anew.element.tramitador.activiti.model.Person;
 import es.anew.element.tramitador.activiti.model.json.FormField;
 import es.anew.element.tramitador.activiti.model.json.Process;
 import es.anew.element.tramitador.activiti.model.json.TaskForm;
 import org.activiti.engine.*;
-import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -19,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.anew.element.tramitador.activiti.model.Person;
-import es.anew.element.tramitador.activiti.repo.PersonRepository;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -40,9 +37,6 @@ public class ActivitiService {
 
 	@Autowired
 	private FormService formService;
-
-	@Autowired
-	private PersonRepository personRepository;
 
 	public ProcessInstance startProcess(Process process) {
 		try {
@@ -70,15 +64,6 @@ public class ActivitiService {
 	public Deployment deployProcess(String nombre, InputStream inputStream) {
 		Deployment deployment = repositoryService.createDeployment().addInputStream(nombre, inputStream).deploy();
 		return deployment;
-	}
-
-	public void createPersons() {
-		if (personRepository.findAll().size() == 0) {
-
-			personRepository.save(new Person("John", new Date()));
-			personRepository.save(new Person("David", new Date()));
-			personRepository.save(new Person("Katherin", new Date()));
-		}
 	}
 
 

@@ -6,8 +6,7 @@ import java.util.StringTokenizer;
 
 import es.anew.element.tramitador.activiti.model.json.*;
 import es.anew.element.tramitador.activiti.model.json.Process;
-import es.anew.element.tramitador.activiti.service.MappingActivitiDataService;
-import org.activiti.engine.form.FormProperty;
+import es.anew.element.tramitador.activiti.utils.ActivitiDataMapper;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -27,15 +26,12 @@ public class TramitadorController {
 	@Autowired
 	private ActivitiService activitiService;
 
-	@Autowired
-	private MappingActivitiDataService mappingService;
 
 	@PostMapping("/processes")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Process startProcessInstance(@RequestBody Process process) {
-
 		ProcessInstance pi = activitiService.startProcess(process);
-		return mappingService.mapProcess(pi);
+		return ActivitiDataMapper.mapProcess(pi);
 
 	}
 
@@ -44,7 +40,7 @@ public class TramitadorController {
 	public List<UserTask> getTasks(@PathVariable String assignee) {
 
 		List<Task> tasks = activitiService.getTasks(assignee);
-		return mappingService.mapUserTasks(tasks);
+		return ActivitiDataMapper.mapUserTasks(tasks);
 	}
 
 	@GetMapping("/forms/{taskId}")
@@ -52,7 +48,7 @@ public class TramitadorController {
 	public TaskForm getForm(@PathVariable String taskId) {
 
 		TaskFormData formData = activitiService.getForm(taskId);
-		return mappingService.mapTaskForm(formData);
+		return ActivitiDataMapper.mapTaskForm(formData);
 	}
 
 
@@ -70,7 +66,7 @@ public class TramitadorController {
 		String nombreProceso = getProcessName(file);
 		try {
 			Deployment deploy = activitiService.deployProcess(nombreProceso,file.getInputStream());
-			return mappingService.mapDeploy(deploy);
+			return ActivitiDataMapper.mapDeploy(deploy);
 		} catch (IOException e) {
 			throw new RuntimeException();
 		}

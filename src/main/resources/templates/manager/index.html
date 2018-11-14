@@ -3,14 +3,15 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Despliegue de proceso</title>
+    <title>Process deploy</title>
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
 
     <form method="POST" id="upload" enctype="multipart/form-data">
-        <input id="file" type="file" name="file" /><br/><br/>
-        <input id="submitButton" type="submit" value="Desplegar proceso" />
+        <label for="file">Select a file to upload</label>
+        <input id="file" type="file" name="file" />
+        <input id="submitButton" type="submit" value="Deploy" />
     </form>
 
     <div id = "result"> </div>

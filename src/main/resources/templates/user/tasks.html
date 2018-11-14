@@ -3,14 +3,16 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Tareas del usuario</title>
+    <title>User tasks</title>
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
-    Estas son las tareas creadas para el usuario <span sec:authentication="name"/>
-    <ul id = "tareas">
+    <b><span sec:authentication="name"/></b> assigned tasks:
 
-    </ul>
+    <div id="tasksDiv" >
+        <ul id = "tareas">
+        </ul>
+    </div>
 
 
     <p><a href="/" th:href="@{/}">Back to home page</a></p>
@@ -29,16 +31,21 @@ $(document).ready(function(){
             dataType: 'json',
             type: 'get',
             contentType: 'application/json',
-            success: function( result){
-                 $.each(result, function(index, element) {
-                    var ul = document.getElementById("tareas")
-                    var li = document.createElement("li");
-                    var a = document.createElement("a");
-                    a.setAttribute('href', "/tasks/"+element.id);
-                    a.appendChild(document.createTextNode(element.name));
-                    li.append(a);
-                    ul.appendChild(li);
-                 });
+            success: function(result){
+                console.log(result.length);
+                if (result.length > 0) {
+                     $.each(result, function(index, element) {
+                        var ul = document.getElementById("tareas")
+                        var li = document.createElement("li");
+                        var a = document.createElement("a");
+                        a.setAttribute('href', "/tasks/"+element.id);
+                        a.appendChild(document.createTextNode(element.name));
+                        li.append(a);
+                        ul.appendChild(li);
+                     });
+                 } else {
+                    $("#tasksDiv").html("<b>No tasks assigned</b>");
+                 }
             }
         });
 });

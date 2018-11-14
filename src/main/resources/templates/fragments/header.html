@@ -16,7 +16,15 @@
                     </li>
 
                     <li sec:authorize="hasRole('USER')" >
-                        <a th:href="@{/tasks}">Tareas del usuario</a>
+                        <a th:href="@{/user}">Create process</a>
+                    </li>
+
+                    <li sec:authorize="hasRole('USER')" >
+                        <a th:href="@{/tasks}">User tasks</a>
+                    </li>
+
+                    <li sec:authorize="hasRole('MANAGER')" >
+                        <a th:href="@{/manager}">Deploy process</a>
                     </li>
                 </ul>
             </div>

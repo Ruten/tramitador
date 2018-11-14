@@ -1,4 +1,4 @@
-package es.anew.element.tramitador.activiti.service;
+package es.anew.element.tramitador.activiti.utils;
 
 
 import es.anew.element.tramitador.activiti.model.json.*;
@@ -8,15 +8,13 @@ import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class MappingActivitiDataService {
+public class ActivitiDataMapper {
 
-    public List<UserTask> mapUserTasks(List<Task> activitiTasks) {
+    public static List<UserTask> mapUserTasks(List<Task> activitiTasks) {
         List<UserTask> userTasks = new ArrayList<>();
         for (Task task: activitiTasks) {
             UserTask userTask = new UserTask();
@@ -29,14 +27,15 @@ public class MappingActivitiDataService {
     }
 
 
-    public Process mapProcess(ProcessInstance activitiProcess) {
+    public static Process mapProcess(ProcessInstance activitiProcess) {
         Process process = new Process();
         process.setId(activitiProcess.getId());
         process.setName(activitiProcess.getProcessDefinitionKey());
+        process.setDeploymentId(activitiProcess.getDeploymentId());
         return process;
     }
 
-    public TaskForm mapTaskForm(TaskFormData formData) {
+    public static TaskForm mapTaskForm(TaskFormData formData) {
         TaskForm form = new TaskForm();
         form.setKey(formData.getFormKey());
 
@@ -54,7 +53,7 @@ public class MappingActivitiDataService {
     }
 
 
-    public Deploy mapDeploy(Deployment activitiDeployment) {
+    public static Deploy mapDeploy(Deployment activitiDeployment) {
         Deploy deploy = new Deploy();
         deploy.setId(activitiDeployment.getId());
         return deploy;

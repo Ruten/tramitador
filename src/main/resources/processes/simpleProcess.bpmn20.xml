@@ -24,6 +24,11 @@
 			<documentation>
 				Work for the second task.
 			</documentation>
+			<extensionElements>
+				<activiti:formProperty id="customerName" name="Customer name" type="string" required="true"/>
+				<activiti:formProperty id="potentialProfit" name="Potential profit" type="long" />
+				<activiti:formProperty id="details" name="Details" type="string"/>
+			</extensionElements>
 		</userTask>
 
 		<sequenceFlow sourceRef="theTask2" targetRef="notification" />
