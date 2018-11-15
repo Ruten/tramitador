@@ -1,6 +1,5 @@
 package es.anew.element.tramitador.activiti.service;
 
-import es.anew.element.tramitador.activiti.model.Person;
 import es.anew.element.tramitador.activiti.model.json.FormField;
 import es.anew.element.tramitador.activiti.model.json.Process;
 import es.anew.element.tramitador.activiti.model.json.TaskForm;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
