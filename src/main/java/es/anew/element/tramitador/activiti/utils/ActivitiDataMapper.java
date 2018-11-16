@@ -46,7 +46,7 @@ public class ActivitiDataMapper {
             field.setId(property.getId());
             field.setName(property.getName());
             field.setType(property.getType().getName());
-            field.setValue(property.getValue());
+            field.setValue(property.getValue() != null ? property.getValue() : "");
             form.addField(field);
         }
         return form;

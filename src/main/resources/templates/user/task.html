@@ -36,8 +36,10 @@ $(document).ready(function(){
 
                     var fieldId = element.id;
 
+                    var value = element.value;
+
                     var field = '<div class="field"><label for="name">'+fieldName+':</label>';
-                    field += '<input type="text" id="'+fieldId+'" name="'+fieldId+'"></div>';
+                    field += '<input type="text" id="'+fieldId+'" name="'+fieldId+'" value="'+value+'"></div>';
 
 
                     $("#taskForm").append(field);
