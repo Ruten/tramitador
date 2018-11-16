@@ -13,6 +13,8 @@ public class TestUtils {
         FormField field = new FormField();
         field.setName("customerName");
         field.setValue("Héctor");
+        field.setName("potentialProfit");
+        field.setValue("12345");
         List<FormField> fields = new ArrayList<>();
         fields.add(field);
         form.setFields(fields);
